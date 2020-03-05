@@ -45,7 +45,8 @@ namespace BlogApi.Controllers
             }
 
            // blockRequest.UserName = HttpContext.User.Identity.Name;
-           // blockRequest.UserName = User.Identity.Name;
+            //blockRequest.UserName = User.Identity.Name;
+            blockRequest.UserName = User.Identity.Name;
 
             var block = await _blockService.CreateBlogAsync(blockRequest);
 
@@ -65,6 +66,7 @@ namespace BlogApi.Controllers
 
             return NoContent();
         }
+
 
         [HttpDelete("{blogid}")]
         public async Task<ActionResult> DeleteBlock(string blogid)

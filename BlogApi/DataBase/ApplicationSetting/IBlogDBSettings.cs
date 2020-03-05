@@ -8,7 +8,6 @@ namespace DataBase.ApplicationSetting
     {
         string ArticleCollectionName { get; set; }
         string UsersCollectionName { get; set; }
-        string CommentsCollectionName { get; set; }
         string ConnectionString { get; set; }
         string DatabaseName { get; set; }
     }

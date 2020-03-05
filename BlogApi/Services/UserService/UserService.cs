@@ -10,7 +10,6 @@ namespace Services.UserService
 {
     public class UserService : IUserService
     {
-
         private readonly IRepository<User> _userResitory;
         private readonly IMapper _mapper;
 

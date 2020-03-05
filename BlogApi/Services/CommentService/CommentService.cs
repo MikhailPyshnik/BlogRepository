@@ -2,6 +2,7 @@
 using DataBase.Repository;
 using Models.Blog;
 using Models.Comment;
+using Models.Exeptions;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,11 @@ namespace Services.CommentService
 
         public async Task<Comment> CreateCommentAsync( UPDCommentRequest commentRequest)
         {
+            if (commentRequest.Text.Length >= 200)
+            {
+                throw new RequestException("Comment has length  more 200 symbols.");
+            }
+
             var comment = _mapper.Map<UPDCommentRequest, Comment>(commentRequest);
             comment.CreatedOn = DateTime.Now;
             comment.UpdatedOn = DateTime.Now;
@@ -40,9 +46,15 @@ namespace Services.CommentService
         public async Task DeleteCommentAsync(string commentId)
         {
             var result = blogCurrent.Commets;
-            string text = blogCurrent.Commets[0].CreatedOn.ToString("MM/dd/yyyy/HH:mm:ss.fff");
+
+            //string text = blogCurrent.Commets[0].CreatedOn.ToString("MM/dd/yyyy/HH:mm:ss.fff");
 
             var currentCommnetId = result.Where(c => c.CreatedOn.ToString("MM/dd/yyyy/HH:mm:ss.fff") == commentId).FirstOrDefault();
+
+            if (currentCommnetId == null)
+            {
+                throw new NotFoundException($"Not found comment by id (create time) ={commentId}");
+            }
 
             blogCurrent.Commets.Remove(currentCommnetId);
 
@@ -54,6 +66,11 @@ namespace Services.CommentService
         {
             var result = blogCurrent.Commets;
             var currentCommnetId = result.Where(c => c.CreatedOn.ToString("MM/dd/yyyy/HH:mm:ss.fff") == commentId).FirstOrDefault();
+
+            if (currentCommnetId == null)
+            {
+                throw new NotFoundException($"Not found comment by id (create time) ={commentId}");
+            }
             return currentCommnetId;
         }
 
@@ -61,43 +78,54 @@ namespace Services.CommentService
         {
             var result = blogCurrent.Commets;
 
+            if (result == null)
+            {
+                throw new NotFoundException($"Not found comment for blog.");
+            }
+
             return result;
         }
 
         public async Task GetCurrentBlogAsync(string blogId)
         {
             blogCurrent = await _blogresitory.Get(blogId);
+            if (blogCurrent == null)
+            {
+                throw new NotFoundException($"Not found blog.");
+            }
         }
 
         public async Task<Comment> UpdateCommentAsync(string commentId, UPDCommentRequest commentRequest)
         {
 
             var result = blogCurrent.Commets;
+            if (commentRequest.Text.Length >= 200)
+            {
+                throw new RequestException("Comment has length  more 200 symbols.");
+            }
+
             string text = blogCurrent.Commets[0].CreatedOn.ToString("MM/dd/yyyy/HH:mm:ss.fff");
 
             var currentCommnet = result.Where(c => c.CreatedOn.ToString("MM/dd/yyyy/HH:mm:ss.fff") == commentId).FirstOrDefault();
 
-
             int index = blogCurrent.Commets.IndexOf(currentCommnet);
-            if (index >= 0)
+            if (index < 0)
             {
-
-                var comment = _mapper.Map<UPDCommentRequest, Comment>(commentRequest);
-                comment.UserId = currentCommnet.UserId;
-                comment.CreatedOn = currentCommnet.CreatedOn;
-                comment.UpdatedOn = DateTime.Now;
-
-
-                result.RemoveAt(index);
-                result.Insert(index, comment);
-
-
-                await _blogresitory.Update(blogCurrent.Id, blogCurrent);
-
-                return comment;
+                throw new NotFoundException($"Not found comment.");
             }
 
-            return null;
+            var comment = _mapper.Map<UPDCommentRequest, Comment>(commentRequest);
+            comment.UserId = currentCommnet.UserId;
+            comment.CreatedOn = currentCommnet.CreatedOn;
+            comment.UpdatedOn = DateTime.Now;
+
+            result.RemoveAt(index);
+            result.Insert(index, comment);
+
+
+            await _blogresitory.Update(blogCurrent.Id, blogCurrent);
+
+            return comment;
         }
     }
 }

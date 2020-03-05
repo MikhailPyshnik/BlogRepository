@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogApi", "BlogApi\BlogApi.csproj", "{6A2D8A81-4427-4445-B4B3-A3A9C68D3F87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogApi.Api", "BlogApi\BlogApi.Api.csproj", "{6A2D8A81-4427-4445-B4B3-A3A9C68D3F87}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{6CDEFF80-FCAD-4400-9633-F4673DBE6FA6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogApi.Models", "Models\BlogApi.Models.csproj", "{6CDEFF80-FCAD-4400-9633-F4673DBE6FA6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{B786C3CC-1652-4E35-9A53-A563136481FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogApi.Services", "Services\BlogApi.Services.csproj", "{B786C3CC-1652-4E35-9A53-A563136481FE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{387106D5-C9FC-4FE3-9679-02C81A60F829}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogApi.Test", "Test\BlogApi.Test.csproj", "{387106D5-C9FC-4FE3-9679-02C81A60F829}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataBase", "DataBase\DataBase.csproj", "{34056089-0EB4-4503-AE9E-B02723E70E03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogApi.DataBase", "DataBase\BlogApi.DataBase.csproj", "{34056089-0EB4-4503-AE9E-B02723E70E03}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Models.Comment;
+using System.Collections.Generic;
 
 namespace Models.Blog
 {
@@ -9,6 +10,6 @@ namespace Models.Blog
         public string Text { get; set; }
         public string UserName { get; set; }
         public int UserId { get; set; }
-        public IEnumerable<Models.Comment.Comment> Commets { get; set; } = new IEnumerable<Models.Comment.Comment>();
+        public IEnumerable<Models.Comment.Comment> Commets { get; set; } = new List<Models.Comment.Comment>(); //= new IEnumerable<Models.Comment.Comment>();
     }
 }

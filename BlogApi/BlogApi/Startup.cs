@@ -18,8 +18,8 @@ using Microsoft.OpenApi.Models;
 using Models.Blog;
 using Services.BlogService;
 using Services.CommentService;
-using AspNetCore.Identity.Mongo.Model;
 using Microsoft.AspNetCore.Http;
+using BlogApi.ErrorMiddleWare;
 
 namespace BlogApi
 {
@@ -94,6 +94,7 @@ namespace BlogApi
                 {
                     options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
                 });
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddHttpContextAccessor();
 
@@ -113,6 +114,13 @@ namespace BlogApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+
+            app.UseMiddleware<ErrorHandlingMiddleware>();
+
+            if (env.IsDevelopment())
+            {
+                //app.UseDeveloperExceptionPage(); чтобы работал MiddleWare
             }
 
             app.UseSwagger();
