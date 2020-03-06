@@ -8,6 +8,7 @@ namespace DataBase.ApplicationSetting
     {
         string ArticleCollectionName { get; set; }
         string UsersCollectionName { get; set; }
+        string CommnetsCollectionName { get; set; }
         string ConnectionString { get; set; }
         string DatabaseName { get; set; }
     }

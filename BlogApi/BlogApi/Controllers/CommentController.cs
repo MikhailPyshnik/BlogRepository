@@ -48,6 +48,9 @@ namespace BlogApi.Controllers
 
             await _commentService.GetCurrentBlogAsync(blogId);
 
+
+            commentRequest.UserName = HttpContext.User.Identity.Name;
+
             var comment = await _commentService.CreateCommentAsync(commentRequest);
 
             var uri = $"/comments/{comment.CreatedOn.ToString("MM/dd/yyyy/HH:mm:ss.fff")}";

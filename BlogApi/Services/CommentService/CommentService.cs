@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DataBase.Repository;
+
 using Models.Blog;
 using Models.Comment;
 using Models.Exeptions;
@@ -7,7 +8,6 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Services.CommentService
@@ -32,9 +32,11 @@ namespace Services.CommentService
             }
 
             var comment = _mapper.Map<UPDCommentRequest, Comment>(commentRequest);
+
             comment.CreatedOn = DateTime.Now;
             comment.UpdatedOn = DateTime.Now;
-            comment.UserId = 10;
+            //comment.UserName = HttpContext.User.Identity.Name;
+            //comment.UserId = 10;
 
             blogCurrent.Commets.Add(comment);
 
@@ -115,7 +117,7 @@ namespace Services.CommentService
             }
 
             var comment = _mapper.Map<UPDCommentRequest, Comment>(commentRequest);
-            comment.UserId = currentCommnet.UserId;
+           // comment.UserId = currentCommnet.UserId;
             comment.CreatedOn = currentCommnet.CreatedOn;
             comment.UpdatedOn = DateTime.Now;
 

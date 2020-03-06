@@ -10,5 +10,7 @@ namespace DataBase.ApplicationSetting
         public string DatabaseName { get; set; }
         public string ArticleCollectionName { get; set; }
         public string UsersCollectionName { get; set; }
+
+        public string CommnetsCollectionName { get; set; }
     }
 }

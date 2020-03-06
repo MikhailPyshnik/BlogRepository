@@ -20,9 +20,9 @@ namespace DataBase.Repository
         {
             var filter = Builders<User>.Filter.Eq(s => s.Id.ToString(), id);
             var update = Builders<User>.Update
-                            .Set(s => s.Email, body)
-                            .Set(s => s.Password, body)
-                            .Set(s => s.UserName, body);
+                            .Set(s => s.Email, body);
+                            //.Set(s => s.Password, body)
+                           // .Set(s => s.UserName, body);
 
             return await _context.Users.UpdateOneAsync(filter, update);
         }
@@ -42,17 +42,17 @@ namespace DataBase.Repository
             }
         }
 
-        public async Task<User> Exists(string email, string userName)
-        {
-            try
-            {
-                return await _context.Users.Find(exist => exist.Email == email || exist.UserName == userName).FirstOrDefaultAsync();
-            }
-            catch
-            {
-                throw new MongoDBException($"Exist user by email - {email} and useName - {userName}.");
-            }
-        }
+        //public async Task<User> Exists(string email, string userName)
+        //{
+        //    //try
+        //    //{
+        //    //   // return await _context.Users.Find(exist => exist.Email == email || exist.UserName == userName).FirstOrDefaultAsync();
+        //    //}
+        //    //catch
+        //    //{
+        //    //    throw new MongoDBException($"Exist user by email - {email} and useName - {userName}.");
+        //    //}
+        //}
 
         public async Task CreateUser(User user)
         {
@@ -80,6 +80,11 @@ namespace DataBase.Repository
             {
                 throw new MongoDBException($"Dont delete user by email - {email}.");
             }
+        }
+
+        public Task<User> Exists(string email, string userName)
+        {
+            throw new System.NotImplementedException();
         }
 
         //public Task<bool> UpdateUser(string email, User user)

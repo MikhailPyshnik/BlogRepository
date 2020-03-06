@@ -14,6 +14,6 @@ namespace Models.Comment
 
         public DateTime CreatedOn { get; set; }
 
-        public int UserId { get; set; }
+        public string UserName { get; set; }
     }
 }
