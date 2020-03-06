@@ -22,7 +22,7 @@ namespace Services.BlogService
 
         public async Task<Blog> CreateBlogAsync(UPDBlogRequest blogRequest)
         {
-            if (blogRequest.Text.Length >= 2)
+            if (blogRequest.Text.Length >= 2000)
             {
                 throw new RequestException("Blog has length  more 2000 symbols.");
             }

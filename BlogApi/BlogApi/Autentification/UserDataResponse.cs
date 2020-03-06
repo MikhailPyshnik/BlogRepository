@@ -7,7 +7,6 @@ namespace BlogApi.Autentification
 {
     public class UserDataResponse
     {
-
         public string Name { get; set; }
 
         public string LastName { get; set; }

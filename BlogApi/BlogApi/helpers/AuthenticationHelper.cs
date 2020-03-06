@@ -17,7 +17,8 @@ namespace BlogApi.helpers
             {
                 new Claim(JwtRegisteredClaimNames.Sub, email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier, user.Id)
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.Name, user.Name)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtKey"]));
@@ -35,3 +36,18 @@ namespace BlogApi.helpers
         }
     }
 }
+//private async Task Authenticate(User user)
+//{
+//    // создаем один claim
+//    var claims = new List<Claim>
+//            {
+//                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
+//                new Claim(ClaimTypes.Locality, user.City),
+//                new Claim("company", user.Company)
+//            };
+//    // создаем объект ClaimsIdentity
+//    ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType,
+//        ClaimsIdentity.DefaultRoleClaimType);
+//    // установка аутентификационных куки
+//    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+//}

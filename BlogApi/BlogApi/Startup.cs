@@ -1,4 +1,4 @@
-using AutoMapper;
+ï»¿using AutoMapper;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
@@ -12,7 +12,6 @@ using Microsoft.IdentityModel.Tokens;
 using BlogApi.Autentification;
 using DataBase.Context;
 using DataBase.Repository;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Models.Blog;
@@ -88,13 +87,6 @@ namespace BlogApi
                        };
             });
 
-            //óñòàíîâêà êîíôèãóðàöèè ïîäêëþ÷åíèÿ
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options => //CookieAuthenticationOptions
-                {
-                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
-                });
-
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddHttpContextAccessor();
 
@@ -120,7 +112,7 @@ namespace BlogApi
 
             if (env.IsDevelopment())
             {
-                //app.UseDeveloperExceptionPage(); ÷òîáû ðàáîòàë MiddleWare
+                //app.UseDeveloperExceptionPage(); Ã·Ã²Ã®Ã¡Ã» Ã°Ã Ã¡Ã®Ã²Ã Ã« MiddleWare
             }
 
             app.UseSwagger();
@@ -133,14 +125,14 @@ namespace BlogApi
 
             app.UseRouting();
 
-            app.UseCors(x => x
-               .AllowAnyOrigin()
-               .AllowAnyMethod()
-               .AllowAnyHeader());
+            //app.UseCors(x => x
+            //   .AllowAnyOrigin()
+            //   .AllowAnyMethod()
+            //   .AllowAnyHeader());
 
-            
-            app.UseAuthentication();    // àóòåíòèôèêàöèÿ
-            app.UseAuthorization();     // àâòîðèçàöèÿ
+
+            app.UseAuthentication();    // Ã Ã³Ã²Ã¥Ã­Ã²Ã¨Ã´Ã¨ÃªÃ Ã¶Ã¨Ã¿
+            app.UseAuthorization();     // Ã Ã¢Ã²Ã®Ã°Ã¨Ã§Ã Ã¶Ã¨Ã¿
 
             app.UseEndpoints(endpoints =>
             {

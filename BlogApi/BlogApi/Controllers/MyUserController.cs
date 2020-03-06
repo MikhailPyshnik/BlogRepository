@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
-
 namespace BlogApi.Controllers
 {
     [Route("api/[controller]/[action]")]
@@ -44,19 +43,21 @@ namespace BlogApi.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromBody]RegisterEntity model)
+        public async Task<IActionResult> Register([FromBody] RegisterEntity model)//UserRegistrationModel model)//RegisterEntity model)
         {
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { Name = model.Name, LastName = model.LastName, City = model.City, UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, false);
                     var token = AuthenticationHelper.GenerateJwtToken(model.Email, user, _configuration);
 
                     var rootData = new SignUpResponse(token, user.UserName, user.Email);
-                    return Created("api/v1/authentication/register", rootData);
+
+                    return Created("api/authentication/register", rootData);
                 }
                 return Ok(string.Join(",", result.Errors?.Select(error => error.Description)));
             }

@@ -1,39 +1,19 @@
-﻿using DataBase.Context;
+﻿using BlogApi.Models.Exceptions;
+using DataBase.Context;
 using Microsoft.Extensions.Options;
 using Models.User;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DataBase.Repository
 {
-    public class UserRepository : IRepository<User>
+    public class UserRepository : IUserRepository
     {
         private readonly ApplicationContext _context;
 
         public UserRepository(IOptions<DataBase.Context.ApplicationSetting> settings)
         {
             _context = new ApplicationContext(settings);
-        }
-
-        public async Task<IEnumerable<User>> GetAll()
-        {
-            return await _context.Users.Find(user => true).ToListAsync();
-        }
-
-        public async Task<User> Get(string name)
-        {
-            var filter = Builders<User>.Filter.Eq("Id", name);
-            return await _context.Users
-                            .Find(filter)
-                            .FirstOrDefaultAsync();
-        }
-
-        public async Task Create(User obj)
-        {
-            await _context.Users.InsertOneAsync(obj);
         }
 
         public async Task<UpdateResult> Update(string id, string body)
@@ -43,24 +23,75 @@ namespace DataBase.Repository
                             .Set(s => s.Email, body)
                             .Set(s => s.Password, body)
                             .Set(s => s.UserName, body);
-            // .CurrentDate(s => s.UpdatedOn);
 
             return await _context.Users.UpdateOneAsync(filter, update);
         }
 
-        public async Task<DeleteResult> Delete(string name)
+        public async Task<User> Find(string email)
         {
-            return await _context.Users.DeleteOneAsync(Builders<User>.Filter.Eq("Id", name));
+            try
+            {
+                var filter = Builders<User>.Filter.Eq("Email", email);
+                return await _context.Users
+                                .Find(filter)
+                                .FirstOrDefaultAsync();
+            }
+            catch
+            {
+                throw new MongoDBException($"Dont find user by email - {email}.");
+            }
         }
 
-        public Task<bool> Update(string id, User obj)
+        public async Task<User> Exists(string email, string userName)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _context.Users.Find(exist => exist.Email == email || exist.UserName == userName).FirstOrDefaultAsync();
+            }
+            catch
+            {
+                throw new MongoDBException($"Exist user by email - {email} and useName - {userName}.");
+            }
         }
 
-        Task<bool> IRepository<User>.Delete(string name)
+        public async Task CreateUser(User user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _context.Users.InsertOneAsync(user);
+            }
+            catch
+            {
+                throw new MongoDBException($"Dont create user by email - {user.Email}.");
+            }
         }
+
+        public async Task<bool> Delete(string email)
+        {
+            try
+            {
+                DeleteResult actionResult;
+
+                actionResult = await _context.Users.DeleteOneAsync(Builders<User>.Filter.Eq("Email", email));
+
+                return actionResult.IsAcknowledged && actionResult.DeletedCount > 0;
+            }
+            catch
+            {
+                throw new MongoDBException($"Dont delete user by email - {email}.");
+            }
+        }
+
+        //public Task<bool> UpdateUser(string email, User user)
+        //{
+        //    try
+        //    {
+
+        //    }
+        //    catch
+        //    {
+        //        throw new MongoDBException($"Dont update user by email - {email}.");
+        //    }
+        //}
     }
 }

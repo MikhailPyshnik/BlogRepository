@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Models.User
 {
     public class LoginUserRequest
     {
-        [Required(ErrorMessage = "Не указан Email")]
+        [Required(ErrorMessage = "Email not specified")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Не указан пароль")]
+        [Required(ErrorMessage = "Password not specified")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
     }

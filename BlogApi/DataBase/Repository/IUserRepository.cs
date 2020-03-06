@@ -1,7 +1,4 @@
 ﻿using Models.User;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DataBase.Repository
@@ -12,6 +9,11 @@ namespace DataBase.Repository
 
         Task<User> Exists(string email, string userName);
 
-        Task CreateUser(User user);
+        //Task<User> CreateUser(User user); //
+        Task CreateUser(User user); //
+
+        // Task<bool> UpdateUser(string email, User user);
+
+        Task<bool> Delete(string email);
     }
 }

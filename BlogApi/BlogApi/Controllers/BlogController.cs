@@ -44,13 +44,11 @@ namespace BlogApi.Controllers
                 return BadRequest(ModelState);
             }
 
-           // blockRequest.UserName = HttpContext.User.Identity.Name;
-            //blockRequest.UserName = User.Identity.Name;
-            blockRequest.UserName = User.Identity.Name;
+            blockRequest.UserName = HttpContext.User.Identity.Name;
 
             var block = await _blockService.CreateBlogAsync(blockRequest);
 
-            var uri = $"/blocks/{block.Id}";
+            var uri = $"/blogs/{block.Id}";
             return Created(uri, block);
         }
 

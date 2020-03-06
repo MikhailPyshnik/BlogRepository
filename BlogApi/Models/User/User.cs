@@ -1,12 +1,10 @@
-﻿using MongoDB.Bson;
+﻿using AspNetCore.Identity.Mongo.Model;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Models.User
 {
-    public class User
+    public class User //: MongoUser
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
