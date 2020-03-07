@@ -6,9 +6,8 @@ namespace DataBase.ApplicationSetting
 {
     interface IBlogDBSettings
     {
-        string ArticleCollectionName { get; set; }
+        string BlogCollectionName { get; set; }
         string UsersCollectionName { get; set; }
-        string CommnetsCollectionName { get; set; }
         string ConnectionString { get; set; }
         string DatabaseName { get; set; }
     }

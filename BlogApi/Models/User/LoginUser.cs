@@ -2,7 +2,7 @@
 
 namespace Models.User
 {
-    public class LoginUserRequest
+    public class LoginUser
     {
         [Required(ErrorMessage = "Email not specified")]
         public string Email { get; set; }

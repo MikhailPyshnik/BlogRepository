@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using DataBase.Repository;
-
 using Models.Blog;
 using Models.Comment;
 using Models.Exeptions;
@@ -18,25 +17,24 @@ namespace Services.CommentService
         private readonly IMapper _mapper;
         private Blog blogCurrent;
 
-        public CommentService( IRepository<Blog> blogresitory, IMapper mapper)
+        public CommentService(IRepository<Blog> blogresitory, IMapper mapper)
         {
             _blogresitory = blogresitory;
             _mapper = mapper;
         }
 
-        public async Task<Comment> CreateCommentAsync( UPDCommentRequest commentRequest)
+        public async Task<Comment> CreateCommentAsync(UpdateCommentRequest commentRequest)
         {
             if (commentRequest.Text.Length >= 200)
             {
                 throw new RequestException("Comment has length  more 200 symbols.");
             }
 
-            var comment = _mapper.Map<UPDCommentRequest, Comment>(commentRequest);
-
-            comment.CreatedOn = DateTime.Now;
-            comment.UpdatedOn = DateTime.Now;
+            var comment = _mapper.Map<UpdateCommentRequest, Comment>(commentRequest);
+            var dateTimeNow = DateTime.Now;
+            comment.CreatedOn = dateTimeNow;
+            comment.UpdatedOn = dateTimeNow;
             //comment.UserName = HttpContext.User.Identity.Name;
-            //comment.UserId = 10;
 
             blogCurrent.Commets.Add(comment);
 
@@ -45,17 +43,17 @@ namespace Services.CommentService
             return comment;
         }
 
-        public async Task DeleteCommentAsync(string commentId)
+        public async Task DeleteCommentAsync(string timeOfCreateId)
         {
             var result = blogCurrent.Commets;
 
             //string text = blogCurrent.Commets[0].CreatedOn.ToString("MM/dd/yyyy/HH:mm:ss.fff");
 
-            var currentCommnetId = result.Where(c => c.CreatedOn.ToString("MM/dd/yyyy/HH:mm:ss.fff") == commentId).FirstOrDefault();
+            var currentCommnetId = result.Where(c => c.CreatedOn.ToString("MM/dd/yyyy/HH:mm:ss.fff") == timeOfCreateId).FirstOrDefault();
 
             if (currentCommnetId == null)
             {
-                throw new NotFoundException($"Not found comment by id (create time) ={commentId}");
+                throw new NotFoundException($"Not found comment by id (create time) ={timeOfCreateId}");
             }
 
             blogCurrent.Commets.Remove(currentCommnetId);
@@ -64,14 +62,14 @@ namespace Services.CommentService
 
         }
 
-        public async Task<Comment> GetCommentAsync(string commentId)
+        public async Task<Comment> GetCommentAsync(string timeOfCreateId)
         {
             var result = blogCurrent.Commets;
-            var currentCommnetId = result.Where(c => c.CreatedOn.ToString("MM/dd/yyyy/HH:mm:ss.fff") == commentId).FirstOrDefault();
+            var currentCommnetId = result.Where(c => c.CreatedOn.ToString("MM/dd/yyyy/HH:mm:ss.fff") == timeOfCreateId).FirstOrDefault();
 
             if (currentCommnetId == null)
             {
-                throw new NotFoundException($"Not found comment by id (create time) ={commentId}");
+                throw new NotFoundException($"Not found comment by id (create time) ={timeOfCreateId}");
             }
             return currentCommnetId;
         }
@@ -97,9 +95,8 @@ namespace Services.CommentService
             }
         }
 
-        public async Task<Comment> UpdateCommentAsync(string commentId, UPDCommentRequest commentRequest)
+        public async Task<Comment> UpdateCommentAsync(string commentId, UpdateCommentRequest commentRequest)
         {
-
             var result = blogCurrent.Commets;
             if (commentRequest.Text.Length >= 200)
             {
@@ -116,14 +113,12 @@ namespace Services.CommentService
                 throw new NotFoundException($"Not found comment.");
             }
 
-            var comment = _mapper.Map<UPDCommentRequest, Comment>(commentRequest);
-           // comment.UserId = currentCommnet.UserId;
+            var comment = _mapper.Map<UpdateCommentRequest, Comment>(commentRequest);
             comment.CreatedOn = currentCommnet.CreatedOn;
             comment.UpdatedOn = DateTime.Now;
 
             result.RemoveAt(index);
             result.Insert(index, comment);
-
 
             await _blogresitory.Update(blogCurrent.Id, blogCurrent);
 

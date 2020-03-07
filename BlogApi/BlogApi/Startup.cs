@@ -1,15 +1,11 @@
 ﻿using AutoMapper;
-using System;
-using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using AspNetCore.Identity.Mongo;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using BlogApi.Autentification;
 using DataBase.Context;
 using DataBase.Repository;
 using Microsoft.Extensions.Hosting;
@@ -19,8 +15,9 @@ using Services.BlogService;
 using Services.CommentService;
 using Microsoft.AspNetCore.Http;
 using BlogApi.ErrorMiddleWare;
-using BlogApi.Api.Simple_API_for_Authentication;
 using System.Threading.Tasks;
+using BlogApi.DataBase.ApplicationSetting;
+using Services.UserService;
 
 namespace BlogApi
 {
@@ -44,7 +41,7 @@ namespace BlogApi
 
             services.AddScoped<IRepository<Blog>, BlogRepository>();
             services.AddScoped<IBlogService, BlogService>();
-            services.AddScoped<Api.Simple_API_for_Authentication.IUserRepository, Api.Simple_API_for_Authentication.UserRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
 
             services.AddScoped<ICommentService, CommentService>();
@@ -72,7 +69,7 @@ namespace BlogApi
                     {
                         var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
                         var userName = context.Principal.Identity.Name;
-                        var user = userService.GetById(userName);
+                        var user = userService.GetByEmail(userName);
                         //var userId = int.Parse(context.Principal.Identity.Name);
                         //var user = userService.GetById(userId);
                         if (user == null)
@@ -93,53 +90,13 @@ namespace BlogApi
                     ValidateAudience = false
                 };
             });
-            //****
-
-            //services.AddIdentityMongoDbProvider<ApplicationUser, AutRole>(identityOptions =>
-            //{
-            //    identityOptions.Password.RequiredLength = 6;
-            //    identityOptions.Password.RequireLowercase = true;
-            //    identityOptions.Password.RequireUppercase = true;
-            //    identityOptions.Password.RequireNonAlphanumeric = true;
-            //    identityOptions.Password.RequireDigit = true;
-            //}, options =>
-            //{
-            //    options.ConnectionString = "mongodb://localhost:27017/BlogPostingDB";
-            //});
-
-
-            // Add Jwt Authentication
-            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
-            //services.AddAuthentication(options =>
-            //{
-            //    //Set default Authentication Schema as Bearer
-            //    options.DefaultAuthenticateScheme =
-            //               JwtBearerDefaults.AuthenticationScheme;
-            //    options.DefaultScheme =
-            //               JwtBearerDefaults.AuthenticationScheme;
-            //    options.DefaultChallengeScheme =
-            //               JwtBearerDefaults.AuthenticationScheme;
-            //}).AddJwtBearer(cfg =>
-            //{
-            //    cfg.RequireHttpsMetadata = false;
-            //    cfg.SaveToken = true;
-            //    cfg.TokenValidationParameters =
-            //           new TokenValidationParameters
-            //           {
-            //               ValidIssuer = Configuration["JwtIssuer"],
-            //               ValidAudience = Configuration["JwtIssuer"],
-            //               IssuerSigningKey =
-            //            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtKey"])),
-            //               ClockSkew = TimeSpan.Zero // remove delay of token when expire
-            //           };
-            //});
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddHttpContextAccessor();
 
             services.AddControllers();
 
-            services.AddAutoMapper(typeof(BlogServiceMapping), typeof(CommentServiceMapping), typeof(AutoMapperProfile));
+            services.AddAutoMapper(typeof(BlogServiceMapping), typeof(CommentServiceMapping));
 
             services.AddSwaggerGen(c =>
             {
@@ -178,8 +135,8 @@ namespace BlogApi
             //   .AllowAnyHeader());
 
 
-            app.UseAuthentication();    // àóòåíòèôèêàöèÿ
-            app.UseAuthorization();     // àâòîðèçàöèÿ
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

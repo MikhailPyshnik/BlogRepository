@@ -35,13 +35,5 @@ namespace DataBase.Context
                 return _database.GetCollection<Blog>("Blogs");
             }
         }
-
-        public IMongoCollection<Comment> Comments
-        {
-            get
-            {
-                return _database.GetCollection<Comment>("Comments");
-            }
-        }
     }
 }

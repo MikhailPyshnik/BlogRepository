@@ -10,7 +10,7 @@ namespace Services.BlogService
     {
         public BlogServiceMapping()
         {
-            CreateMap<UPDBlogRequest, Blog>();
+            CreateMap<UpdateBlogRequest, Blog>();
         }
     }
 }

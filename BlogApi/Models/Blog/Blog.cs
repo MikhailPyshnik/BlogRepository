@@ -2,8 +2,6 @@
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using Models.Comment;
 
 namespace Models.Blog
 {
@@ -13,7 +11,8 @@ namespace Models.Blog
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
+
         public string Text { get; set; } = string.Empty;
 
         [BsonDateTimeOptions]
@@ -23,8 +22,6 @@ namespace Models.Blog
         public DateTime CreatedOn { get; set; }
 
         public string UserName { get; set; }
-
-        public int UserId { get; set; }
 
         public List<Models.Comment.Comment> Commets { get; set; } = new List<Models.Comment.Comment>();
     }

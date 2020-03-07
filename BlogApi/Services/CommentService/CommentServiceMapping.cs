@@ -10,7 +10,7 @@ namespace Services.CommentService
     {
         public CommentServiceMapping()
         {
-            CreateMap<UPDCommentRequest, Comment>();
+            CreateMap<UpdateCommentRequest, Comment>();
         }
     }
 }

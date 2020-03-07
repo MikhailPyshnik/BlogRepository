@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Models.Comment
+{
+    public class UpdateCommentRequest
+    {
+        public string Text { get; set; } = string.Empty;
+
+        public string UserName { get; set; } = string.Empty;
+    }
+}

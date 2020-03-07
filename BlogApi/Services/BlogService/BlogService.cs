@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DataBase.Repository;
+using Microsoft.AspNetCore.Http;
 using Models.Blog;
 using Models.Exeptions;
 using System;
@@ -20,17 +21,19 @@ namespace Services.BlogService
             _mapper = mapper;
         }
 
-        public async Task<Blog> CreateBlogAsync(UPDBlogRequest blogRequest)
+        public async Task<Blog> CreateBlogAsync(UpdateBlogRequest blogRequest)
         {
             if (blogRequest.Text.Length >= 2000)
             {
                 throw new RequestException("Blog has length  more 2000 symbols.");
             }
 
-            var blg = _mapper.Map<UPDBlogRequest, Blog>(blogRequest);
-            blg.CreatedOn = DateTime.Now;
-            blg.UpdatedOn = DateTime.Now;
-
+            var blog = _mapper.Map<UpdateBlogRequest, Blog>(blogRequest);
+            var dateTimeNow = DateTime.Now;
+            blog.CreatedOn = dateTimeNow;
+            blog.UpdatedOn = dateTimeNow;
+            //blog.UserName = .User.Identity.Name;
+            //sblog.UserName = HttpContext.;
 
             var blogs = await _repository.GetAll();
 
@@ -39,8 +42,8 @@ namespace Services.BlogService
                 throw new RequestException("Blog exists this title!");
             }
 
-            await _repository.Create(blg);
-            return blg;
+            await _repository.Create(blog);
+            return blog;
         }
 
         public async Task DeleteBlogAsync(string blogId)
@@ -68,18 +71,18 @@ namespace Services.BlogService
             return await _repository.GetAll();
         }
 
-        public async Task<Blog> UpdateBlogAsync(string blogId, UPDBlogRequest blogRequest)
+        public async Task<Blog> UpdateBlogAsync(string blogId, UpdateBlogRequest blogRequest)
         {
             if (blogRequest.Text.Length >= 2000)
             {
                 throw new RequestException("Blog has length  more 2000 symbols.");
             }
 
-            var blogResult = _mapper.Map<UPDBlogRequest, Blog>(blogRequest);
+            var blogResult = _mapper.Map<UpdateBlogRequest, Blog>(blogRequest);
             blogResult.UpdatedOn = DateTime.Now;
 
-            var res = await _repository.Update(blogId.ToString(), blogResult);
-            if (!res)
+            var blogUpdate = await _repository.Update(blogId.ToString(), blogResult);
+            if (!blogUpdate)
             {
                 throw new ResponseException("Blog has not update", 500);
             }

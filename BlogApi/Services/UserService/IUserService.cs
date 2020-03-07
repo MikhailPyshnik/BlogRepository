@@ -1,18 +1,20 @@
-﻿using Models.User;
+﻿using BlogApi.Models.User;
+using Models.User;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Services.UserService
 {
     public interface IUserService
     {
-        Task<UserResponse> CreateUserAccount(UserRegistrationModel registerUser);
+        Task<IEnumerable<User>> GetAllUsers();
 
-        Task<UserResponse> AuthenticateUser(LoginUserRequest loginUser);
+        Task<User> GetByEmail(string email);
 
+        Task<User> Authenticate(LoginUser loginUser);
 
-        //Task<UserResponse> UpdateUserAccountAsync(UserRegistrationModel userRequest);
+        Task<UserRegistrationResponse> Create(UserRegistrationModel registerUser);
 
-        Task DeleteUserAccountAsync(string email);
-
+        Task Delete(string email);
     }
 }

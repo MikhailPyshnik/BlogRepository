@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using BlogApi.Models.User;
 using Models.User;
-//using BlogApi.Autentification;
 
 namespace Services.UserService
 {
@@ -9,8 +9,9 @@ namespace Services.UserService
         public UserServiceMapping()
         {
             CreateMap<UserRegistrationModel, User>();
-            CreateMap<User, UserRegistrationModel>();
             CreateMap<User, UserResponse>();
+            CreateMap<User, UserResponceAllUsers>();
+            CreateMap<User, UserResponceAllUsers>();
         }
     }
 }

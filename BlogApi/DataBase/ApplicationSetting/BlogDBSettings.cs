@@ -8,9 +8,7 @@ namespace DataBase.ApplicationSetting
     {
         public string ConnectionString { get; set; }
         public string DatabaseName { get; set; }
-        public string ArticleCollectionName { get; set; }
+        public string BlogCollectionName { get; set; }
         public string UsersCollectionName { get; set; }
-
-        public string CommnetsCollectionName { get; set; }
     }
 }

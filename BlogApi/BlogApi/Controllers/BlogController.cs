@@ -37,7 +37,7 @@ namespace BlogApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Blog>> AddBlock([FromBody] UPDBlogRequest blockRequest)
+        public async Task<ActionResult<Blog>> AddBlock([FromBody] UpdateBlogRequest blockRequest)
         {
             if (!ModelState.IsValid)
             {
@@ -53,7 +53,7 @@ namespace BlogApi.Controllers
         }
 
         [HttpPut("{blogId}")]
-        public async Task<ActionResult> UpdateBlock(string blogId, [FromBody] UPDBlogRequest blockRequest)
+        public async Task<ActionResult> UpdateBlock(string blogId, [FromBody] UpdateBlogRequest blockRequest)
         {
             if (!ModelState.IsValid)
             {

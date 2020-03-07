@@ -2,7 +2,7 @@
 
 namespace Models.User
 {
-    public class UPDUserRequest
+    public class UpdateUserRequest
     {
         [Required]
         public string UserName { get; set; }

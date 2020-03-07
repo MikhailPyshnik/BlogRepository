@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Models.Comment
+namespace BlogApi.Models.User
 {
-    public class UPDCommentRequest
+    public class UserRegistrationResponse
     {
-        public string Text { get; set; } = string.Empty;
-
+        public string Email { get; set; }
         public string UserName { get; set; }
     }
 }

@@ -61,7 +61,15 @@ namespace DataBase.Repository
 
         public async Task<IEnumerable<Blog>> GetAll()
         {
-            return await _context.Blogs.Find(blog => true).ToListAsync();
+            try
+            {
+                return await _context.Blogs.Find(blog => true).ToListAsync();
+            }
+            catch
+            {
+                throw new MongoDBException($"Dont find all blogs.");
+            }
+            
         }
 
         public async Task<bool> Update(string id,  Blog obj)

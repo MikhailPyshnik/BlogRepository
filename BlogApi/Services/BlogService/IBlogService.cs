@@ -10,9 +10,9 @@ namespace Services.BlogService
 
         Task<Blog> GetBlogAsync(string blogId);
 
-        Task<Blog> CreateBlogAsync(UPDBlogRequest blogRequest);
+        Task<Blog> CreateBlogAsync(UpdateBlogRequest blogRequest);
 
-        Task<Blog> UpdateBlogAsync(string blogId, UPDBlogRequest blogRequest);
+        Task<Blog> UpdateBlogAsync(string blogId, UpdateBlogRequest blogRequest);
 
         Task DeleteBlogAsync(string blogId);
     }

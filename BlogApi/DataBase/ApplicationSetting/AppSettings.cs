@@ -1,5 +1,4 @@
-﻿
-namespace BlogApi.Services.UserService
+﻿namespace BlogApi.DataBase.ApplicationSetting
 {
     public class AppSettings
     {

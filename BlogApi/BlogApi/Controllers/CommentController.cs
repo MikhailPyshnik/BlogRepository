@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Comment;
@@ -8,6 +8,7 @@ using Services.CommentService;
 
 namespace BlogApi.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class CommentController : ControllerBase
@@ -39,7 +40,7 @@ namespace BlogApi.Controllers
         }
 
         [HttpPost("{blogId}")]
-        public async Task<ActionResult<Comment>> AddComment(string blogId, [FromBody] UPDCommentRequest commentRequest)
+        public async Task<ActionResult<Comment>> AddComment(string blogId, [FromBody] UpdateCommentRequest commentRequest)
         {
             if (!ModelState.IsValid)
             {
@@ -58,7 +59,7 @@ namespace BlogApi.Controllers
         }
 
         [HttpPut("{blogId}/{commnetId}")]
-        public async Task<ActionResult> UpdateComment(string blogId,string commentId, [FromBody] UPDCommentRequest commentRequest)
+        public async Task<ActionResult> UpdateComment(string blogId,string commentId, [FromBody] UpdateCommentRequest commentRequest)
         {
 
             if (!ModelState.IsValid)
