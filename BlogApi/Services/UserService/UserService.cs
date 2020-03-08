@@ -6,6 +6,9 @@ using Models.Exeptions;
 using Models.User;
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Mail;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Services.UserService
@@ -58,9 +61,6 @@ namespace Services.UserService
                 throw new RequestException($"The user with email -{registerUser.Email} password is empty.");
             }
 
-            //if (_context.Users.Any(x => x.Username == user.Username))
-            //    throw new AppException("Username \"" + user.Username + "\" is already taken");
-
             var user = _mapper.Map<UserRegistrationModel, User>(registerUser);
             var dateTimeNow = DateTime.Now;
             user.CreatedOn = dateTimeNow;
@@ -76,7 +76,6 @@ namespace Services.UserService
             var responseUser = _mapper.Map<User, UserRegistrationResponse>(user);
 
             return responseUser;
-            //return user;//_mapper.Map<User, UserResponse>(user);
         }
 
         public async Task Delete(string email)
@@ -88,16 +87,56 @@ namespace Services.UserService
             await _userResitory.DeleteUser(email);
         }
 
-        public async Task<IEnumerable<User>> GetAllUsers()
+        public async Task<IEnumerable<UserResponceAllUsers>> GetAllUsers()
         {
-            return  await _userResitory.GetAllUsers();
-
-            //var responseUser = _mapper.Map<User, UserResponceAllUsers>(tes);
+            var users = await _userResitory.GetAllUsers();
+            var responseUser = _mapper.Map<IEnumerable<User>, IEnumerable<UserResponceAllUsers>>(users);
+            return responseUser;
         }
 
         public async Task<User> GetByEmail(string email)
         {
             return await _userResitory.FindUser(email);
+        }
+
+        public async Task<string> SendNewPasswordForForgettenPassword(string email)
+        {
+            var UserForgittenPassword =  await _userResitory.FindUser(email);
+
+            if (UserForgittenPassword == null)
+            {
+                throw new RequestException($"The user with email - {UserForgittenPassword.Email} not registration.");
+            }
+
+            byte[] passwordHash, passwordSalt;
+            string newUserPassword = GenerateNewPasswordForUser();
+            CreatePasswordHash(newUserPassword, out passwordHash, out passwordSalt);
+
+            UserForgittenPassword.PasswordHash = new List<byte>(passwordHash);
+            UserForgittenPassword.PasswordSalt = new List<byte>(passwordSalt);
+
+            await _userResitory.UpdateUser(UserForgittenPassword);
+
+            using (MailMessage mail = new MailMessage())
+            {
+                mail.From = new MailAddress("blogapisendmessage@gmail.com");
+                mail.To.Add(email);
+                mail.Subject = "New password for account blog api.";
+                mail.Body = ("Your Username is: " + UserForgittenPassword.UserName + "<br/><br/>" + "Your Password is: " + newUserPassword);
+                mail.IsBodyHtml = true;
+
+                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                {
+                    smtp.UseDefaultCredentials = false;
+                    smtp.Credentials = new NetworkCredential("blogapisendmessage@gmail.com", "PASSWORD");// here password from google email
+                    smtp.EnableSsl = true;
+                    smtp.Send(mail);
+                }
+            }
+
+            string sendResult = $"Your new password was sent  to mail -  {email}.";
+
+            return sendResult;
         }
 
         // private helper methods
@@ -130,6 +169,27 @@ namespace Services.UserService
             }
 
             return true;
+        }
+
+        private static string GenerateNewPasswordForUser()
+        {
+            int length = 12;
+
+            // creating a StringBuilder object()
+            StringBuilder str_build = new StringBuilder();
+            Random random = new Random();
+
+            char letter;
+
+            for (int i = 0; i < length; i++)
+            {
+                double flt = random.NextDouble();
+                int shift = Convert.ToInt32(Math.Floor(25 * flt));
+                letter = Convert.ToChar(shift + 65);
+                str_build.Append(letter);
+            }
+
+            return str_build.ToString();
         }
     }
 }

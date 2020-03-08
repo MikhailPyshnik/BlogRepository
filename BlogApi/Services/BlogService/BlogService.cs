@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using BlogApi.Models.Blog;
 using DataBase.Repository;
-using Microsoft.AspNetCore.Http;
 using Models.Blog;
 using Models.Exeptions;
 using System;
@@ -21,19 +21,17 @@ namespace Services.BlogService
             _mapper = mapper;
         }
 
-        public async Task<Blog> CreateBlogAsync(UpdateBlogRequest blogRequest)
+        public async Task<Blog> CreateBlogAsync(CreateBlogRequest blogRequest)
         {
             if (blogRequest.Text.Length >= 2000)
             {
                 throw new RequestException("Blog has length  more 2000 symbols.");
             }
 
-            var blog = _mapper.Map<UpdateBlogRequest, Blog>(blogRequest);
+            var blog = _mapper.Map<CreateBlogRequest, Blog>(blogRequest);
             var dateTimeNow = DateTime.Now;
             blog.CreatedOn = dateTimeNow;
             blog.UpdatedOn = dateTimeNow;
-            //blog.UserName = .User.Identity.Name;
-            //sblog.UserName = HttpContext.;
 
             var blogs = await _repository.GetAll();
 
@@ -66,9 +64,11 @@ namespace Services.BlogService
             return blog;
         }
 
-        public async Task<IEnumerable<Blog>> GetBlogsAsync()
+        public async Task<IEnumerable<BlogResponce>> GetBlogsAsync()
         {
-            return await _repository.GetAll();
+            var blogs = await _repository.GetAll();
+            var responseBlog = _mapper.Map<IEnumerable<Blog>, IEnumerable<BlogResponce>>(blogs);
+            return responseBlog;
         }
 
         public async Task<Blog> UpdateBlogAsync(string blogId, UpdateBlogRequest blogRequest)
@@ -87,6 +87,19 @@ namespace Services.BlogService
                 throw new ResponseException("Blog has not update", 500);
             }
             return blogResult;
+        }
+
+        public async Task<IEnumerable<Blog>> SearchByPartialTitleOccurrenceUserNameOrCategory(SearchBlogRequest search)
+        {
+            var allBlogs = await _repository.GetAll();
+
+            string searchString = search.SearchString;
+
+            var searchBlogs = allBlogs.Where(s => (s.Title.Contains(searchString))
+                                          || (s.UserName.Contains(searchString))
+                                          || (s.Category.Contains(searchString))).ToList();
+
+            return searchBlogs.Count !=0 ? searchBlogs : null;
         }
     }
 }

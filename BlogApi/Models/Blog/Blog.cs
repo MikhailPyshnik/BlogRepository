@@ -11,9 +11,9 @@ namespace Models.Blog
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         
-        public string Title { get; set; } = string.Empty;
+        public string Title { get; set; }
 
-        public string Text { get; set; } = string.Empty;
+        public string Text { get; set; }
 
         [BsonDateTimeOptions]
         public DateTime UpdatedOn { get; set; }
@@ -22,6 +22,10 @@ namespace Models.Blog
         public DateTime CreatedOn { get; set; }
 
         public string UserName { get; set; }
+
+       // public BlogCategoryByEnum Category { get; set; }
+
+        public string Category { get; set; }
 
         public List<Models.Comment.Comment> Commets { get; set; } = new List<Models.Comment.Comment>();
     }

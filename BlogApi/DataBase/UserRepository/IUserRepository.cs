@@ -12,7 +12,9 @@ namespace DataBase.Repository
 
         Task<User> ExistsUser(string email, string userName);
 
-        Task CreateUser(User user); 
+        Task CreateUser(User user);
+
+        Task UpdateUser(User user);
 
         Task<bool> DeleteUser(string email);
     }

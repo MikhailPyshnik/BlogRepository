@@ -4,7 +4,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using BlogApi.Autentification;
 using BlogApi.DataBase.ApplicationSetting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -52,25 +51,14 @@ namespace BlogApi.Controllers
                 {
                     new Claim(ClaimTypes.Name, user.UserName)
                 }),
-                Expires = DateTime.UtcNow.AddDays(7),
+                Expires = DateTime.UtcNow.AddMinutes(1440),//DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
 
-            // return basic user info and authentication token
-
             var rootData = new LoginResponse(tokenString, user.UserName, user.Email);
             return Ok(rootData);
-
-            //return Ok(new User
-            //{
-            //    Id = user.Id,
-            //    Username = user.Username,
-            //    FirstName = user.FirstName,
-            //    LastName = user.LastName
-            //    //Token = tokenString
-            //});
         }
 
         [AllowAnonymous]
@@ -96,14 +84,13 @@ namespace BlogApi.Controllers
             return Ok(users);
         }
 
-        //[HttpGet("{id}")]
-        //public IActionResult GetById(int id)
-        //{
-        //    var user = _userService.GetById(id);
-        //    var model = _mapper.Map<UserModel>(user);
-        //    return Ok(model);
-        //  GetByEmail(string email);
-        //}
+        [AllowAnonymous]
+        [HttpPost("sendnewpassword")]
+        public async Task<ActionResult<string>> GetNewPassword([FromBody]string email)
+        {
+            var password  = await _userService.SendNewPasswordForForgettenPassword(email);
+            return Ok(password);
+        }
 
 
         [HttpDelete("{id}")]

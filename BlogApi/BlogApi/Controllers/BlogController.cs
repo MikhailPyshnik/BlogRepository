@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using BlogApi.Models.Blog;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Blog;
@@ -8,8 +8,8 @@ using Services.BlogService;
 
 namespace BlogApi.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [Route("api/[controller]")]
+    [Authorize]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class BlogController : ControllerBase
     {
@@ -28,6 +28,19 @@ namespace BlogApi.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Blog>>> GetSearchBlog([FromBody] SearchBlogRequest searchSrting)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var articles = await _blockService.SearchByPartialTitleOccurrenceUserNameOrCategory(searchSrting);
+            return Ok(articles);
+        }
+
+        [AllowAnonymous]
         [HttpGet("{blogId}")]
         public async Task<ActionResult<Blog>> GetBlock(string blogId)
         {
@@ -37,7 +50,7 @@ namespace BlogApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Blog>> AddBlock([FromBody] UpdateBlogRequest blockRequest)
+        public async Task<ActionResult<Blog>> AddBlock([FromBody] CreateBlogRequest blockRequest)
         {
             if (!ModelState.IsValid)
             {
@@ -64,7 +77,6 @@ namespace BlogApi.Controllers
 
             return NoContent();
         }
-
 
         [HttpDelete("{blogid}")]
         public async Task<ActionResult> DeleteBlock(string blogid)

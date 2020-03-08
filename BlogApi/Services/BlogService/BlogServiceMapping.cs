@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
+using BlogApi.Models.Blog;
 using Models.Blog;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Services.BlogService
 {
@@ -10,7 +9,11 @@ namespace Services.BlogService
     {
         public BlogServiceMapping()
         {
-            CreateMap<UpdateBlogRequest, Blog>();
+            CreateMap<UpdateBlogRequest, Blog>()
+                .ForMember(x => x.Category, x => x.MapFrom(y => y.Category.ToString()));
+            CreateMap<CreateBlogRequest, Blog>()
+                .ForMember(x => x.Category, x => x.MapFrom(y => y.Category.ToString()));
+            CreateMap<IEnumerable<Blog>, IEnumerable<BlogResponce>>();
         }
     }
 }

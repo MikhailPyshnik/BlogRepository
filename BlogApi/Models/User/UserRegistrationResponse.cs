@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BlogApi.Models.User
+﻿namespace BlogApi.Models.User
 {
     public class UserRegistrationResponse
     {

@@ -29,6 +29,31 @@ namespace DataBase.Repository
             }
         }
 
+        public async Task UpdateUser(User user) //Task<User>
+        {
+            var udateUser = await FindUser(user.Email);
+
+            UpdateResult actionResult;
+            try
+            {
+                var filter = Builders<User>.Filter.Eq(s => s.Email, user.Email);
+                var update = Builders<User>.Update
+                                .Set(s => s.PasswordHash, user.PasswordHash)
+                                .Set(s => s.PasswordSalt, user.PasswordSalt);
+                                //
+                                //.Set(s => s.Commets, obj.Commets)
+                                //.CurrentDate(s => s.UpdatedOn);
+
+                actionResult = await _context.Users.UpdateOneAsync(filter, update);
+            }
+            catch
+            {
+                throw new MongoDBException($"Dont update User by email - {user.Email}.");
+            }
+
+          //  return actionResult.IsAcknowledged && actionResult.ModifiedCount > 0;
+        }
+
         public async Task<IEnumerable<User>> GetAllUsers()
         {
             try

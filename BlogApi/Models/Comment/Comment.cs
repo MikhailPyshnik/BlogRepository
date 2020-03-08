@@ -5,7 +5,7 @@ namespace Models.Comment
 {
     public class Comment
     {
-        public string Text { get; set; } = string.Empty;
+        public string Text { get; set; }
 
         [BsonDateTimeOptions]
         public DateTime UpdatedOn { get; set; }
@@ -13,6 +13,6 @@ namespace Models.Comment
         [BsonDateTimeOptions]
         public DateTime CreatedOn { get; set; }
 
-        public string UserName { get; set; } = string.Empty;
+        public string UserName { get; set; }
     }
 }

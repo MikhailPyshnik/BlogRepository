@@ -70,8 +70,6 @@ namespace BlogApi
                         var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
                         var userName = context.Principal.Identity.Name;
                         var user = userService.GetByEmail(userName);
-                        //var userId = int.Parse(context.Principal.Identity.Name);
-                        //var user = userService.GetById(userId);
                         if (user == null)
                         {
                             // return unauthorized if user no longer exists
@@ -84,6 +82,7 @@ namespace BlogApi
                 x.SaveToken = true;
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
+                   // ValidateLifetime = false, //
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
@@ -116,7 +115,7 @@ namespace BlogApi
 
             if (env.IsDevelopment())
             {
-                //app.UseDeveloperExceptionPage(); ÷òîáû ðàáîòàë MiddleWare
+                //app.UseDeveloperExceptionPage(); work MiddleWare
             }
 
             app.UseSwagger();
@@ -129,10 +128,10 @@ namespace BlogApi
 
             app.UseRouting();
 
-            //app.UseCors(x => x
-            //   .AllowAnyOrigin()
-            //   .AllowAnyMethod()
-            //   .AllowAnyHeader());
+            app.UseCors(x => x
+               .AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader());
 
 
             app.UseAuthentication();

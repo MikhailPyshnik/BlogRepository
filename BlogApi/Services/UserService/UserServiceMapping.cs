@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BlogApi.Models.User;
 using Models.User;
+using System.Collections.Generic;
 
 namespace Services.UserService
 {
@@ -11,7 +12,8 @@ namespace Services.UserService
             CreateMap<UserRegistrationModel, User>();
             CreateMap<User, UserResponse>();
             CreateMap<User, UserResponceAllUsers>();
-            CreateMap<User, UserResponceAllUsers>();
+            CreateMap<User, UserRegistrationResponse>();
+            CreateMap<IEnumerable<User>, IEnumerable<UserRegistrationResponse>>();
         }
     }
 }
