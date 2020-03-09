@@ -6,13 +6,13 @@ namespace Services.CommentService
 {
     public interface ICommentService
     {
-        Task<IEnumerable<Comment>> GetCommentsAsync();
+        Task<IEnumerable<CommentModel>> GetCommentsAsync();
 
-        Task<Comment> GetCommentAsync(string timeOfCreateId);
+        Task<CommentModel> GetCommentAsync(string timeOfCreateId);
 
-        Task<Comment> CreateCommentAsync(UpdateCommentRequest commentRequest);
+        Task<CommentModel> CreateCommentAsync(UpdateCommentRequest commentRequest);
 
-        Task<Comment> UpdateCommentAsync(string timeOfCreateId, UpdateCommentRequest commentRequest);
+        Task<CommentModel> UpdateCommentAsync(string timeOfCreateId, UpdateCommentRequest commentRequest);
 
         Task DeleteCommentAsync(string timeOfCreateId);
 

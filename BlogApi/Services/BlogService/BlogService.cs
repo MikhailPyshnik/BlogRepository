@@ -64,15 +64,22 @@ namespace Services.BlogService
             return blog;
         }
 
-        public async Task<IEnumerable<BlogResponce>> GetBlogsAsync()
+        public async Task<IEnumerable<Blog>> GetBlogsAsync()
         {
             var blogs = await _repository.GetAll();
-            var responseBlog = _mapper.Map<IEnumerable<Blog>, IEnumerable<BlogResponce>>(blogs);
-            return responseBlog;
+            //var responseBlog = _mapper.Map<IEnumerable<Blog>, IEnumerable<BlogResponce>>(blogs);
+            return blogs;
         }
 
         public async Task<Blog> UpdateBlogAsync(string blogId, UpdateBlogRequest blogRequest)
         {
+            var blog = await  this.GetBlogAsync(blogId);
+
+            if (blog == null)
+            {
+                throw new NotFoundException($"Not found blog by id ={blogId}");
+            }
+
             if (blogRequest.Text.Length >= 2000)
             {
                 throw new RequestException("Blog has length  more 2000 symbols.");
@@ -98,6 +105,11 @@ namespace Services.BlogService
             var searchBlogs = allBlogs.Where(s => (s.Title.Contains(searchString))
                                           || (s.UserName.Contains(searchString))
                                           || (s.Category.Contains(searchString))).ToList();
+
+            if (searchBlogs == null)
+            {
+                throw new NotFoundException($"Not found blogs by search string  = {search}");
+            }
 
             return searchBlogs.Count !=0 ? searchBlogs : null;
         }

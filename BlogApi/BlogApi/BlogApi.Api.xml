@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BlogApi.Api</name>
+    </assembly>
+    <members>
+        <member name="M:BlogApi.Controllers.BlogController.GetAllBlogs">
+            <summary>
+            Gets all blogs.
+            </summary>
+            <returns>All available blogs.</returns>
+            <response code="200">Returns all blogs.</response>
+            <response code="500">Server error.</response>
+        </member>
+        <member name="M:BlogApi.Controllers.BlogController.GetSearchBlog(BlogApi.Models.Blog.SearchBlogRequest)">
+            <summary>
+            Gets blogs by search string.
+            </summary>
+            <param name="searchSrting"> earch string.</param>
+            <returns>All available blogs.</returns>
+            <response code="200">Return blog.</response>
+            <response code="404">Not Found.</response>
+            <response code="500">Server error.</response>
+        </member>
+        <member name="M:BlogApi.Controllers.BlogController.GetBlock(System.String)">
+            <summary>
+            Gets blog by blogId.
+            </summary>
+            <param name="blogId"> blogId.</param>
+            <returns>Return blog by id.</returns>
+            <response code="200">Return blog.</response>
+            <response code="404">Not Found.</response>
+            <response code="500">Server error.</response>
+        </member>
+        <member name="M:BlogApi.Controllers.BlogController.AddBlock(BlogApi.Models.Blog.CreateBlogRequest)">
+            <summary>
+            Adds new blog.
+            </summary>
+            <param name="blockRequest"> Add new blog.</param>
+            <returns>A <see cref="T:Microsoft.AspNetCore.Mvc.CreatedAtActionResult"/>.</returns>
+            <response code="201">Returns a new blog.</response>
+            <response code="400">Not valid.</response>
+            <response code="401">User is unauthorized.</response>
+            <response code="500">Server error.</response>
+        </member>
+        <member name="M:BlogApi.Controllers.BlogController.UpdateBlock(System.String,Models.Blog.UpdateBlogRequest)">
+            <summary>
+            Updates blog by id.
+            </summary>
+            <param name="blogId"> blogId.</param>
+            <param name="blockRequest"> Add update blog.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/>.</returns>
+            <response code="204">NoContent.</response>
+            <response code="400">Not valid.</response>
+            <response code="401">User is unauthorized.</response>
+            <response code="404">Not Found.</response>
+            <response code="500">Server error.</response>
+        </member>
+        <member name="M:BlogApi.Controllers.BlogController.DeleteBlock(System.String)">
+            <summary>
+            Delete blog by blogId.
+            </summary>
+            <param name="blogid"> blogId.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/>.</returns>
+            <response code="200">Return text.</response>
+            <response code="401">User is unauthorized.</response>
+            <response code="404">Not Found.</response>
+            <response code="500">Server error.</response>
+        </member>
+        <member name="M:BlogApi.Controllers.CommentController.GetComments(System.String)">
+            <summary>
+            Gets all comments by blog.
+            </summary>
+            <param name="blogId">BlogId.</param>
+            <returns>All available comments.</returns>
+            <response code="200">Return comment.</response>
+            <response code="404">Not Found.</response>
+            <response code="500">Server error.</response>
+        </member>
+        <member name="M:BlogApi.Controllers.CommentController.GetComment(System.String,System.String)">
+            <summary>
+            Get comment by blog.
+            </summary>
+            <param name="blogId">BlogId.</param>
+            <param name="commnetId">CommnetId.</param>
+            <returns>All available comments.</returns>
+            <response code="200">Return comment.</response>
+            <response code="404">Not Found.</response>
+            <response code="500">Server error.</response>
+        </member>
+        <member name="M:BlogApi.Controllers.CommentController.AddComment(System.String,BlogApi.Models.Comment.CreateComment)">
+            <summary>
+            Adds a new comment.
+            </summary>
+            <param name="blogId"> Blog id.</param>
+            <param name="commentRequest"> Add new comment.</param>
+            <returns>A <see cref="T:Microsoft.AspNetCore.Mvc.CreatedAtActionResult"/>.</returns>
+            <response code="201">Returns a new comment.</response>
+            <response code="400">Not valid.</response>
+            <response code="401">User is unauthorized.</response>
+            <response code="500">Server error.</response>
+        </member>
+        <member name="M:BlogApi.Controllers.CommentController.UpdateComment(System.String,System.String,Models.Comment.UpdateCommentRequest)">
+            <summary>
+            Updates comment by id.
+            </summary>
+            <param name="blogId"> blogId.</param>
+            <param name=" commentId"> commentId.</param>
+            <param name="commentRequest"> Add update comment.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/>.</returns>
+            <response code="204">NoContent.</response>
+            <response code="400">Not valid.</response>
+            <response code="401">User is unauthorized.</response>
+            <response code="404">Not Found.</response>
+            <response code="500">Server error.</response>
+        </member>
+        <member name="M:BlogApi.Controllers.CommentController.DeleteComment(System.String,System.String)">
+            <summary>
+            Delete commnet in blog by commentId.
+            </summary>
+            <param name="blogId"> blogId.</param>
+            <param name="commentId"> commentId.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/>.</returns>
+            <response code="200">Return text.</response>
+            <response code="401">User is unauthorized.</response>
+            <response code="404">Not Found.</response>
+            <response code="500">Server error.</response>
+        </member>
+        <member name="M:BlogApi.Controllers.UserController.Authenticate(Models.User.LoginUser)">
+            <summary>
+            Login user.
+            </summary>
+            <param name="loginUser">New user.</param>
+            <returns>String.</returns>
+            <response code="200">Return comment.</response>
+            <response code ="400"> Not valid.</response>
+            <response code="404">Not Found.</response>
+            <response code="500">Server error.</response>
+        </member>
+        <member name="M:BlogApi.Controllers.UserController.Register(Models.User.UserRegistrationModel)">
+            <summary>
+            Registration User.
+            </summary>
+            <param name="model">A new user.</param>
+            <returns>A <see cref="T:Microsoft.AspNetCore.Mvc.CreatedAtActionResult"/>.</returns>
+            <response code="201">Returns a new user.</response>
+            <response code ="400"> Not valid.</response>
+            <response code="500">Server error.</response>
+        </member>
+        <member name="M:BlogApi.Controllers.UserController.GetAllUsers">
+            <summary>
+            Gets all users.
+            </summary>
+            <returns>All available users.</returns>
+            <response code="200">Return users.</response>
+            <response code="404">Not Found.</response>
+            <response code="500">Server error.</response>
+        </member>
+        <member name="M:BlogApi.Controllers.UserController.GetNewPassword(System.String)">
+            <summary>
+            Gets a new password on email.
+            </summary>
+            <param name="email">Email to send a new password.</param>
+            <returns>String.</returns>
+            <response code="200">Return comment.</response>
+            <response code="404">Not Found.</response>
+            <response code="500">Server error.</response>
+        </member>
+    </members>
+</doc>

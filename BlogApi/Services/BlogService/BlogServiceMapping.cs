@@ -13,7 +13,7 @@ namespace Services.BlogService
                 .ForMember(x => x.Category, x => x.MapFrom(y => y.Category.ToString()));
             CreateMap<CreateBlogRequest, Blog>()
                 .ForMember(x => x.Category, x => x.MapFrom(y => y.Category.ToString()));
-            CreateMap<IEnumerable<Blog>, IEnumerable<BlogResponce>>();
+            CreateMap<IEnumerable<Blog>, List<BlogResponce>>();
         }
     }
 }

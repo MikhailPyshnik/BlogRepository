@@ -23,14 +23,14 @@ namespace Services.CommentService
             _mapper = mapper;
         }
 
-        public async Task<Comment> CreateCommentAsync(UpdateCommentRequest commentRequest)
+        public async Task<CommentModel> CreateCommentAsync(UpdateCommentRequest commentRequest)
         {
             if (commentRequest.Text.Length >= 200)
             {
                 throw new RequestException("Comment has length  more 200 symbols.");
             }
 
-            var comment = _mapper.Map<UpdateCommentRequest, Comment>(commentRequest);
+            var comment = _mapper.Map<UpdateCommentRequest, CommentModel>(commentRequest);
             var dateTimeNow = DateTime.Now;
             comment.CreatedOn = dateTimeNow;
             comment.UpdatedOn = dateTimeNow;
@@ -62,7 +62,7 @@ namespace Services.CommentService
 
         }
 
-        public async Task<Comment> GetCommentAsync(string timeOfCreateId)
+        public async Task<CommentModel> GetCommentAsync(string timeOfCreateId)
         {
             var result = blogCurrent.Commets;
             var currentCommnetId = result.Where(c => c.CreatedOn.ToString("MM/dd/yyyy/HH:mm:ss.fff") == timeOfCreateId).FirstOrDefault();
@@ -74,7 +74,7 @@ namespace Services.CommentService
             return currentCommnetId;
         }
 
-        public async Task<IEnumerable<Comment>> GetCommentsAsync() 
+        public async Task<IEnumerable<CommentModel>> GetCommentsAsync() 
         {
             var result = blogCurrent.Commets;
 
@@ -95,7 +95,7 @@ namespace Services.CommentService
             }
         }
 
-        public async Task<Comment> UpdateCommentAsync(string commentId, UpdateCommentRequest commentRequest)
+        public async Task<CommentModel> UpdateCommentAsync(string commentId, UpdateCommentRequest commentRequest)
         {
             var result = blogCurrent.Commets;
             if (commentRequest.Text.Length >= 200)
@@ -113,7 +113,7 @@ namespace Services.CommentService
                 throw new NotFoundException($"Not found comment.");
             }
 
-            var comment = _mapper.Map<UpdateCommentRequest, Comment>(commentRequest);
+            var comment = _mapper.Map<UpdateCommentRequest, CommentModel>(commentRequest);
             comment.CreatedOn = currentCommnet.CreatedOn;
             comment.UpdatedOn = DateTime.Now;
 

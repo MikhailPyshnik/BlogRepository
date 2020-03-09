@@ -36,7 +36,7 @@ namespace Services.UserService
             // check if username exists
             if (user == null)
             {
-                throw new ServiceException($"User with email : {loginUser.Email} - is not register.");
+                throw new NotFoundException($"User with email : {loginUser.Email} - is not register.");
             }
 
             // check if password is correct
@@ -82,7 +82,7 @@ namespace Services.UserService
         {
             if (await _userResitory.FindUser(email) == null)
             {
-                throw new RequestException($"The user with email - {email}  not found.");
+                throw new NotFoundException($"The user with email - {email}  not found.");
             }
             await _userResitory.DeleteUser(email);
         }
@@ -90,6 +90,10 @@ namespace Services.UserService
         public async Task<IEnumerable<UserResponceAllUsers>> GetAllUsers()
         {
             var users = await _userResitory.GetAllUsers();
+            if (users == null)
+            {
+                throw new NotFoundException($"The users not found.");
+            }
             var responseUser = _mapper.Map<IEnumerable<User>, IEnumerable<UserResponceAllUsers>>(users);
             return responseUser;
         }
@@ -101,28 +105,28 @@ namespace Services.UserService
 
         public async Task<string> SendNewPasswordForForgettenPassword(string email)
         {
-            var UserForgittenPassword =  await _userResitory.FindUser(email);
+            var userForgittenPassword =  await _userResitory.FindUser(email);
 
-            if (UserForgittenPassword == null)
+            if (userForgittenPassword == null)
             {
-                throw new RequestException($"The user with email - {UserForgittenPassword.Email} not registration.");
+                throw new NotFoundException($"The users not found.");
             }
 
             byte[] passwordHash, passwordSalt;
             string newUserPassword = GenerateNewPasswordForUser();
             CreatePasswordHash(newUserPassword, out passwordHash, out passwordSalt);
 
-            UserForgittenPassword.PasswordHash = new List<byte>(passwordHash);
-            UserForgittenPassword.PasswordSalt = new List<byte>(passwordSalt);
+            userForgittenPassword.PasswordHash = new List<byte>(passwordHash);
+            userForgittenPassword.PasswordSalt = new List<byte>(passwordSalt);
 
-            await _userResitory.UpdateUser(UserForgittenPassword);
+            await _userResitory.UpdateUser(userForgittenPassword);
 
             using (MailMessage mail = new MailMessage())
             {
                 mail.From = new MailAddress("blogapisendmessage@gmail.com");
                 mail.To.Add(email);
                 mail.Subject = "New password for account blog api.";
-                mail.Body = ("Your Username is: " + UserForgittenPassword.UserName + "<br/><br/>" + "Your Password is: " + newUserPassword);
+                mail.Body = ("Your Username is: " + userForgittenPassword.UserName + "<br/><br/>" + "Your Password is: " + newUserPassword);
                 mail.IsBodyHtml = true;
 
                 using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))

@@ -7,7 +7,7 @@ namespace Services.BlogService
 {
     public interface IBlogService
     {
-        Task<IEnumerable<BlogResponce>> GetBlogsAsync();
+        Task<IEnumerable<Blog>> GetBlogsAsync();
 
         Task<Blog> GetBlogAsync(string blogId);
 

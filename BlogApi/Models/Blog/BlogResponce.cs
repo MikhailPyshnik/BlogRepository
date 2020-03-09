@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models.Comment;
+using System.Collections.Generic;
 
 namespace BlogApi.Models.Blog
 {
@@ -6,10 +7,8 @@ namespace BlogApi.Models.Blog
     {
         public string Title { get; set; }
 
-        public DateTime UpdatedOn { get; set; }
-
-        public BlogCategoryByEnum Category { get; set; }
-
         public string UserName { get; set; }
+
+        public string Category { get; set; }
     }
 }

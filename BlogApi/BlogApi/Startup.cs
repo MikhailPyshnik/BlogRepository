@@ -18,6 +18,9 @@ using BlogApi.ErrorMiddleWare;
 using System.Threading.Tasks;
 using BlogApi.DataBase.ApplicationSetting;
 using Services.UserService;
+using System.Reflection;
+using System.IO;
+using System;
 
 namespace BlogApi
 {
@@ -47,8 +50,6 @@ namespace BlogApi
             services.AddScoped<ICommentService, CommentService>();
 
             services.AddSingleton<ApplicationContext>();
-
-            //*****
 
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
@@ -99,7 +100,38 @@ namespace BlogApi
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My BlogAPI", Version = "v1" });
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "JWT Authorization header using the Bearer scheme."
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] {}
+
+                    }
+                });
+
+                //Add xml commnet to swagger.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.XML";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+
             });
         }
 
@@ -118,11 +150,20 @@ namespace BlogApi
                 //app.UseDeveloperExceptionPage(); work MiddleWare
             }
 
+            app.UseAuthentication(); //Ensure this like is above the swagger stuff
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My BLOGAPI V1");
             });
+
+            //var swaggerOptions = new SwaggerOptions();
+            //Configuration.GetSection(nameof(SwaggerOptions)).Bind(swaggerOptions);
+            //app.UseSwagger(option => { option.RouteTemplate = swaggerOptions.JsonRoute; });
+            //app.UseSwaggerUI(option =>
+            //{
+            //    option.SwaggerEndpoint(swaggerOptions.UIEndPoint, swaggerOptions.Description);
+            //});
 
             app.UseHttpsRedirection();
 

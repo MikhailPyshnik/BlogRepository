@@ -3,7 +3,7 @@ using System;
 
 namespace Models.Comment
 {
-    public class Comment
+    public class CommentModel
     {
         public string Text { get; set; }
 

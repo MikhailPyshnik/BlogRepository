@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
+using BlogApi.Models.Comment;
 using Models.Comment;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Services.CommentService
 {
@@ -10,7 +8,10 @@ namespace Services.CommentService
     {
         public CommentServiceMapping()
         {
-            CreateMap<UpdateCommentRequest, Comment>();
+            CreateMap<CreateComment, UpdateCommentRequest>();
+            CreateMap<UpdateCommentRequest, CommentModel>();
+            CreateMap<UpdateCommentRequest, CommentModel>();
+            CreateMap<CommentModel, CommentResponce>();
         }
     }
 }

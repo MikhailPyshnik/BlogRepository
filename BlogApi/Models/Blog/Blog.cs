@@ -27,6 +27,6 @@ namespace Models.Blog
 
         public string Category { get; set; }
 
-        public List<Models.Comment.Comment> Commets { get; set; } = new List<Models.Comment.Comment>();
+        public List<Models.Comment.CommentModel> Commets { get; set; }
     }
 }
