@@ -157,14 +157,6 @@ namespace BlogApi
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My BLOGAPI V1");
             });
 
-            //var swaggerOptions = new SwaggerOptions();
-            //Configuration.GetSection(nameof(SwaggerOptions)).Bind(swaggerOptions);
-            //app.UseSwagger(option => { option.RouteTemplate = swaggerOptions.JsonRoute; });
-            //app.UseSwaggerUI(option =>
-            //{
-            //    option.SwaggerEndpoint(swaggerOptions.UIEndPoint, swaggerOptions.Description);
-            //});
-
             app.UseHttpsRedirection();
 
             app.UseRouting();
