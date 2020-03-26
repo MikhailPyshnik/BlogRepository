@@ -9,10 +9,10 @@ namespace Services.BlogService
     {
         public BlogServiceMapping()
         {
-            CreateMap<UpdateBlogRequest, Blog>()
-                .ForMember(x => x.Category, x => x.MapFrom(y => y.Category.ToString()));
-            CreateMap<CreateBlogRequest, Blog>()
-                .ForMember(x => x.Category, x => x.MapFrom(y => y.Category.ToString()));
+            CreateMap<UpdateBlogRequest, Blog>(); // don't use enum
+                //.ForMember(x => x.Category, x => x.MapFrom(y => y.Category.ToString()));
+            CreateMap<CreateBlogRequest, Blog>(); // don't use enum
+               //.ForMember(x => x.Category, x => x.MapFrom(y => y.Category.ToString()));
             CreateMap<IEnumerable<Blog>, List<BlogResponce>>();
         }
     }

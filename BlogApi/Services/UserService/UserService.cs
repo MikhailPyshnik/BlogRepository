@@ -132,7 +132,7 @@ namespace Services.UserService
                 using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
                 {
                     smtp.UseDefaultCredentials = false;
-                    smtp.Credentials = new NetworkCredential("blogapisendmessage@gmail.com", "PASSWORD");// here password from google email
+                    smtp.Credentials = new NetworkCredential("blogapisendmessage@gmail.com", "MINSKxlopec23");// here password from google email
                     smtp.EnableSsl = true;
                     smtp.Send(mail);
                 }

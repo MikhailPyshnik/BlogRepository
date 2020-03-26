@@ -1,0 +1,26 @@
+<div *ngIf="resetPassword == false">
+   <div class ="center">
+      <p class ="mb-3 mt-3 ml-3 mr -3">Email address</p>
+      <input type="email" class="form-control borderForm mb-2 mt-3 ml-3 mr -3" style="width: 460px;" placeholder="Email..." [(ngModel)]="email">
+      <p class ="mb-3 mt-3 ml-3 mr -3">Password</p>
+      <input type="password" class="form-control borderForm mb-2 ml-3" style="width: 460px;" placeholder="Password..."  [(ngModel)]="password">
+       <div class="text-center">
+          <button type="button" class="btn borderForm btn-primary mb-3" (click)="loginUser()">Login User</button>
+        </div>
+        <div class="text-center">
+          <button type="button" class="btn borderForm btn-primary mb-3" (click)="isResetPassword(true)">Forget Password</button>
+        </div>
+    </div>
+  </div>
+  
+    <div *ngIf="resetPassword == true">
+      <div class ="center">
+        <p class ="mb-3 mt-3 ml-3 mr -3">Enter your email address to change password</p>
+        <input type="email" class="form-control borderForm mb-2 mt-3 ml-3 mr -3" style="width: 460px;" placeholder="Email..." [(ngModel)]="email">
+        <div class="text-center">
+          <button type="button" class="btn borderForm btn-primary mb-3 ml-3" (click)="newPasswordToUserEmail(email)">Send new Password</button>
+          <button type="button" class="btn borderForm btn-primary mb-3 ml-3" (click)="isResetPassword(false)">Back to Login</button>
+        </div>
+    </div>
+    
+  </div>

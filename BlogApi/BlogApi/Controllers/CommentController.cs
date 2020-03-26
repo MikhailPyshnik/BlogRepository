@@ -113,7 +113,7 @@ namespace BlogApi.Controllers
         /// <response code="401">User is unauthorized.</response>
         /// <response code="404">Not Found.</response>
         /// <response code="500">Server error.</response>
-        [HttpPut("{blogId}/{commnetId}")]
+        [HttpPut("{blogId}/{commentId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -128,6 +128,8 @@ namespace BlogApi.Controllers
             }
 
             await _commentService.GetCurrentBlogAsync(blogId);
+
+            commentRequest.UserName = HttpContext.User.Identity.Name;
 
             var comment = await _commentService.UpdateCommentAsync(commentId, commentRequest);
 
@@ -146,7 +148,7 @@ namespace BlogApi.Controllers
         /// <response code="401">User is unauthorized.</response>
         /// <response code="404">Not Found.</response>
         /// <response code="500">Server error.</response>
-        [HttpDelete("{blogId}/{commnetId}")]
+        [HttpDelete("{blogId}/{commentId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

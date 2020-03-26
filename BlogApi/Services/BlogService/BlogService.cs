@@ -96,22 +96,20 @@ namespace Services.BlogService
             return blogResult;
         }
 
-        public async Task<IEnumerable<Blog>> SearchByPartialTitleOccurrenceUserNameOrCategory(SearchBlogRequest search)
+        public async Task<IEnumerable<Blog>> SearchByPartialTitleOccurrenceUserNameOrCategory(string search)
         {
             var allBlogs = await _repository.GetAll();
 
-            string searchString = search.SearchString;
-
-            var searchBlogs = allBlogs.Where(s => (s.Title.Contains(searchString))
-                                          || (s.UserName.Contains(searchString))
-                                          || (s.Category.Contains(searchString))).ToList();
-
-            if (searchBlogs == null)
+            if (String.IsNullOrEmpty(search))
             {
-                throw new NotFoundException($"Not found blogs by search string  = {search}");
+               throw new NotFoundException("Search string is null or empty");
             }
 
-            return searchBlogs.Count !=0 ? searchBlogs : null;
+            var searchBlogs = allBlogs.Where(s => (s.Title.Contains(search))
+                                          || (s.UserName.Contains(search))
+                                          || (s.Category.Contains(search))).ToList();
+
+            return searchBlogs;
         }
     }
 }

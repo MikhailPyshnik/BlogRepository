@@ -1,0 +1,21 @@
+.button {
+    display: inline-block;
+	height: 50px;
+    line-height: 50px;
+    position: relative;
+    border: 1px solid white;
+    padding: 0 1rem;
+}
+
+.center {
+    margin: 0 auto;
+    margin-top: 100px;
+    width: 500px;
+    border: 2px solid #A9A9A9;
+    background: #DCDCDC;
+}
+
+.borderForm
+{
+    border: 2px solid #A9A9A9;
+}

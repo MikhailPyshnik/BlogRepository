@@ -50,7 +50,7 @@ namespace BlogApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IEnumerable<Blog>>> GetSearchBlog([FromBody] SearchBlogRequest searchSrting)
+        public async Task<ActionResult<IEnumerable<Blog>>> GetSearchBlog([FromQuery] string searchSrting)
         {
             if (!ModelState.IsValid)
             {
@@ -74,7 +74,7 @@ namespace BlogApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Blog>> GetBlock(string blogId)
+        public async Task<ActionResult<Blog>> GetBlog(string blogId)
         {
             var blog = await _blockService.GetBlogAsync(blogId);
 
@@ -96,7 +96,7 @@ namespace BlogApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<Blog>> AddBlock([FromBody] CreateBlogRequest blockRequest)
+        public async Task<ActionResult<Blog>> AddBlog([FromBody] CreateBlogRequest blockRequest)
         {
             if (!ModelState.IsValid)
             {
@@ -122,14 +122,13 @@ namespace BlogApi.Controllers
         /// <response code="401">User is unauthorized.</response>
         /// <response code="404">Not Found.</response>
         /// <response code="500">Server error.</response>
-        [HttpPut]
-        [Route("{blogId}")]
+        [HttpPut("{blogId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdateBlock(string blogId, [FromBody] UpdateBlogRequest blockRequest)
+        public async Task<ActionResult> UpdateBlog(string blogId, [FromBody] UpdateBlogRequest blockRequest)
         {
             if (!ModelState.IsValid)
             {
@@ -150,13 +149,12 @@ namespace BlogApi.Controllers
         /// <response code="401">User is unauthorized.</response>
         /// <response code="404">Not Found.</response>
         /// <response code="500">Server error.</response>
-        [HttpDelete]
-        [Route("{blogid}")]
+        [HttpDelete("{blogid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> DeleteBlock(string blogid)
+        public async Task<ActionResult> DeleteBlog(string blogid)
         {
             await _blockService.DeleteBlogAsync(blogid);
 

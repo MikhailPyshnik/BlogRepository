@@ -34,8 +34,8 @@ namespace Services.CommentService
             var dateTimeNow = DateTime.Now;
             comment.CreatedOn = dateTimeNow;
             comment.UpdatedOn = dateTimeNow;
-            //comment.UserName = HttpContext.User.Identity.Name;
 
+            comment.Id = RenerateStringID();
             blogCurrent.Commets.Add(comment);
 
             await _blogresitory.Update(blogCurrent.Id, blogCurrent);
@@ -43,17 +43,15 @@ namespace Services.CommentService
             return comment;
         }
 
-        public async Task DeleteCommentAsync(string timeOfCreateId)
+        public async Task DeleteCommentAsync(string commentId)
         {
             var result = blogCurrent.Commets;
 
-            //string text = blogCurrent.Commets[0].CreatedOn.ToString("MM/dd/yyyy/HH:mm:ss.fff");
-
-            var currentCommnetId = result.Where(c => c.CreatedOn.ToString("MM/dd/yyyy/HH:mm:ss.fff") == timeOfCreateId).FirstOrDefault();
+            var currentCommnetId = result.Where(c => c.Id == commentId).FirstOrDefault();
 
             if (currentCommnetId == null)
             {
-                throw new NotFoundException($"Not found comment by id (create time) ={timeOfCreateId}");
+                throw new NotFoundException($"Not found comment by id - {commentId}");
             }
 
             blogCurrent.Commets.Remove(currentCommnetId);
@@ -62,14 +60,14 @@ namespace Services.CommentService
 
         }
 
-        public async Task<CommentModel> GetCommentAsync(string timeOfCreateId)
+        public async Task<CommentModel> GetCommentAsync(string commentId)
         {
             var result = blogCurrent.Commets;
-            var currentCommnetId = result.Where(c => c.CreatedOn.ToString("MM/dd/yyyy/HH:mm:ss.fff") == timeOfCreateId).FirstOrDefault();
+            var currentCommnetId = result.Where(c => c.Id == commentId).FirstOrDefault();
 
             if (currentCommnetId == null)
             {
-                throw new NotFoundException($"Not found comment by id (create time) ={timeOfCreateId}");
+                throw new NotFoundException($"Not found comment by id - {commentId}");
             }
             return currentCommnetId;
         }
@@ -103,9 +101,7 @@ namespace Services.CommentService
                 throw new RequestException("Comment has length  more 200 symbols.");
             }
 
-            string text = blogCurrent.Commets[0].CreatedOn.ToString("MM/dd/yyyy/HH:mm:ss.fff");
-
-            var currentCommnet = result.Where(c => c.CreatedOn.ToString("MM/dd/yyyy/HH:mm:ss.fff") == commentId).FirstOrDefault();
+            var currentCommnet = result.Where(c => c.Id == commentId).FirstOrDefault();
 
             int index = blogCurrent.Commets.IndexOf(currentCommnet);
             if (index < 0)
@@ -114,6 +110,7 @@ namespace Services.CommentService
             }
 
             var comment = _mapper.Map<UpdateCommentRequest, CommentModel>(commentRequest);
+            comment.Id = commentId;
             comment.CreatedOn = currentCommnet.CreatedOn;
             comment.UpdatedOn = DateTime.Now;
 
@@ -123,6 +120,14 @@ namespace Services.CommentService
             await _blogresitory.Update(blogCurrent.Id, blogCurrent);
 
             return comment;
+        }
+
+        private string RenerateStringID()
+        {
+            Random random = new Random();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars,10)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }

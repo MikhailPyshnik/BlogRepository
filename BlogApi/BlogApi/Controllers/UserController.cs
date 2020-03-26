@@ -15,6 +15,7 @@ using Services.UserService;
 
 namespace BlogApi.Controllers
 {
+    [AllowAnonymous]
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
@@ -135,17 +136,10 @@ namespace BlogApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<string>> GetNewPassword([FromBody]string email)
+        public async Task<ActionResult<string>> GetNewPassword([FromBody] string email)
         {
             var password  = await _userService.SendNewPasswordForForgettenPassword(email);
             return Ok(password);
         }
-
-        //[HttpDelete("{id}")]
-        //public IActionResult Delete(string id)
-        //{
-        //    _userService.Delete(id);
-        //    return Ok();
-        //}
     }
 }

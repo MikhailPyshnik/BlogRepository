@@ -1,0 +1,24 @@
+<div class="form-inline pull-xs-right titleText">
+    <input class="form-control ml-3 mr -3" type="text" placeholder="Search" [(ngModel)]="searchString">
+    <a class="btn btn-info ml-3 mr -3" (click) = searchBlogs(searchString) type="submit">Show Search posts</a>
+    <a class="btn btn-info ml-3 mr -3" *ngIf="isSearch == true" (click)= loadBlogPosts()  type="submit">Show All posts</a>
+</div>
+
+<div *ngIf="isSearch == true">
+    <p *ngIf="(blogPosts | async)?.length == 0"><em>Not found posts by <strong>"{{searchString}}".</strong></em></p>
+</div>
+
+<div *ngIf="isSearch == false">
+    <p *ngIf="!(blogPosts | async)"><em>Loading...</em></p>
+    <p *ngIf="(blogPosts | async)?.length == 0"><em>Not Posts...</em></p>
+</div>
+
+<p *ngIf="(blogPosts | async)?.length > 0">Total posts: {{(blogPosts | async)?.length}}.</p>
+
+<div *ngFor="let blogPost of (blogPosts| async)">
+    <div class ="titleText">
+    <h3><a [routerLink]="['/blogpost/', blogPost.id]">{{ blogPost.title }}</a></h3>
+    <strong>Created:</strong> {{ blogPost.createdOn | date: "dd.MM.y H:m" }} | <strong>Author:</strong> {{ blogPost.userName }} | <strong>Category:</strong> {{ blogPost.category }}
+    <strong>Comments:</strong> {{ blogPost.commets.length }}
+   </div>
+</div>

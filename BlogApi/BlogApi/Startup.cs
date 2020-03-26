@@ -147,7 +147,7 @@ namespace BlogApi
 
             if (env.IsDevelopment())
             {
-                //app.UseDeveloperExceptionPage(); work MiddleWare
+                app.UseDeveloperExceptionPage(); //work MiddleWare
             }
 
             app.UseAuthentication(); //Ensure this like is above the swagger stuff

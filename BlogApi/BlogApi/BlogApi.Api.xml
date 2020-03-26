@@ -12,7 +12,7 @@
             <response code="200">Returns all blogs.</response>
             <response code="500">Server error.</response>
         </member>
-        <member name="M:BlogApi.Controllers.BlogController.GetSearchBlog(BlogApi.Models.Blog.SearchBlogRequest)">
+        <member name="M:BlogApi.Controllers.BlogController.GetSearchBlog(System.String)">
             <summary>
             Gets blogs by search string.
             </summary>
@@ -22,7 +22,7 @@
             <response code="404">Not Found.</response>
             <response code="500">Server error.</response>
         </member>
-        <member name="M:BlogApi.Controllers.BlogController.GetBlock(System.String)">
+        <member name="M:BlogApi.Controllers.BlogController.GetBlog(System.String)">
             <summary>
             Gets blog by blogId.
             </summary>
@@ -32,7 +32,7 @@
             <response code="404">Not Found.</response>
             <response code="500">Server error.</response>
         </member>
-        <member name="M:BlogApi.Controllers.BlogController.AddBlock(BlogApi.Models.Blog.CreateBlogRequest)">
+        <member name="M:BlogApi.Controllers.BlogController.AddBlog(BlogApi.Models.Blog.CreateBlogRequest)">
             <summary>
             Adds new blog.
             </summary>
@@ -43,7 +43,7 @@
             <response code="401">User is unauthorized.</response>
             <response code="500">Server error.</response>
         </member>
-        <member name="M:BlogApi.Controllers.BlogController.UpdateBlock(System.String,Models.Blog.UpdateBlogRequest)">
+        <member name="M:BlogApi.Controllers.BlogController.UpdateBlog(System.String,Models.Blog.UpdateBlogRequest)">
             <summary>
             Updates blog by id.
             </summary>
@@ -56,7 +56,7 @@
             <response code="404">Not Found.</response>
             <response code="500">Server error.</response>
         </member>
-        <member name="M:BlogApi.Controllers.BlogController.DeleteBlock(System.String)">
+        <member name="M:BlogApi.Controllers.BlogController.DeleteBlog(System.String)">
             <summary>
             Delete blog by blogId.
             </summary>

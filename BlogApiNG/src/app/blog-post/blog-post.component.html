@@ -1,0 +1,53 @@
+<ng-container *ngIf="(blogPost$ | async) as blogPost; else loading" class="customMargin">
+    <div class ="titleText">
+        <h3>{{ blogPost.title }}</h3>
+        <p><strong>Created:</strong> {{ blogPost.createdOn | date: "dd.MM.y H:m" }} | <strong>Update:</strong> {{ blogPost.updatedOn | date: "dd.MM.y H:m"}} | <strong>Author:</strong> {{ blogPost.userName }} | <strong>Category:</strong> {{ blogPost.category }}</p>
+            <div class ="articleText">
+                 {{ blogPost.text }}
+            </div>
+            <div *ngIf ="user === blogPost.userName">
+                
+                <a [routerLink]="['/blogpost/edit/', blogPost.id]" class="btn btn-primary float-right mt-3 mb-3 ml-3">Edit</a>
+                <a [routerLink]="['/blogpost/', blogPost.id]" (click)="delete(blogPost.id)" class="btn btn-danger float-right mt-3 mb-3 ml-3">Delete</a>
+                <a [routerLink]="['/blogpost']" class="btn btn-secondary float-right mt-3 mb-3 ml-3">Back</a>
+            </div>          
+                <div class ="comment">
+                    <p>Comments</p> 
+                </div>
+   <div>
+    <ol class="comments first_level" *ngFor='let comment of blogPost.commets'>
+            <li>
+                <div class="text1">              
+                    <div class="comment_text">
+                        <div class="comment_author"> <strong>Author:</strong> {{ comment.userName }} | 
+                            <span class="date"> <strong>Created:</strong> {{ comment.createdOn | date: "dd.MM.y H:mm" }} </span> | 
+                            <span class="date"> <strong>Update:</strong> {{ comment.updatedOn| date: "dd.MM.y H:mm" }} </span> 
+                        </div>
+                        
+                        <div class ="border1">
+                            <p>{{ comment.text }}</p>
+                        </div>
+
+                        <div *ngIf ="user === comment.userName">
+                            <a [routerLink]="['/blogpost/', blogPost.id]" (click)="editComment(blogPost.id,comment.id)" class="btn btn-primary btn-sm float-right mt-3 mb-3 ml-3">Edit</a>
+                            <a [routerLink]="['/blogpost/', blogPost.id]" (click)="deleteComment(blogPost.id,comment.id,comment.text)" class="btn btn-danger btn-sm float-right mt-3 mb-3 ml-3">Delete comment</a>
+                        </div>  
+                    </div>
+                   
+                </div> 
+                <div class="cleaner"></div>                          
+            </li>
+        </ol>
+    </div>
+         <div  *ngIf ="logIn" class="text1" id="123" >
+        <label for="exampleFormControlTextarea1">Add your comment -{{user}} !</label>
+        <textarea #commentBlog class="form-control" id="exampleFormControlTextarea1" rows="3"  placeholder="Text..."  [(ngModel)]="textComment"></textarea>
+        <div class="form-group">
+            <button type="submit" [routerLink]="['/blogpost/', blogPost.id]" class="btn btn-success float-right mt-3 mb-3 ml-3"  *ngIf ="!isCommentEdit" (click)="save()">Add comment</button>
+            <button type="submit" [routerLink]="['/blogpost/', blogPost.id]" class="btn btn-success float-right mt-3 mb-3 ml-3"  *ngIf ="isCommentEdit" (click)="updateComment(blogPost.id)">Edit comment</button>
+            <button class="btn btn-secondary float-right mt-3 mb-3 ml-3" (click)="cancel()">Cancel</button>
+            </div>
+        </div>
+    </div>
+  </ng-container>
+  <ng-template #loading>Loading…</ng-template>

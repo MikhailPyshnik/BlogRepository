@@ -1,0 +1,30 @@
+<nav class="navbar navbar-expand-lg navbar-dark" style="background: rgb(64, 124, 185);">
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a [routerLink]="['/']" class="btn btn-info ml-3 mr -3">All Posts</a>
+      </li>
+      <li class="nav-item">
+        <a [routerLink]="['add']" class="btn btn-info ml-3 mr -3">Add Post</a>
+      </li>
+      <li class="nav-item">
+        <a [routerLink]="['registration']" class="btn btn-info ml-3 mr -3">Registration</a>
+      </li>
+      <li class="nav-item">
+        <a [routerLink]="['login']" class="btn btn-info ml-3 mr -3" *ngIf="!authenticated">Login</a>
+      </li>
+      <li class="nav-item">
+        <a [routerLink]="['/']" class="btn btn-info ml-3 mr -3" (click)=logout() *ngIf="authenticated">LogOut</a>
+      </li>
+      <li class="nav-item">
+      <div *ngIf="authenticated">
+        {{getUserName()}}
+        <h3>{{userName}}</h3>
+    </div>
+  </li>
+    </ul>
+  </div>
+</nav>
+<div class="container">
+  <router-outlet></router-outlet>
+</div>

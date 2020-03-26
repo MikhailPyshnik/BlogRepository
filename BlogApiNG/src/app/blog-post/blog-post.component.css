@@ -1,0 +1,109 @@
+#comment_section{
+    clear: both;
+    margin-bottom: 60px;
+    width: 460px;
+    display: block;
+    color: #666;
+    font-family: Helevetica,Arial,sans-serif;
+    font-size: 13px;
+    line-height: 1.5em;
+}
+
+.buttonPosition {
+    width: 150px;
+    margin-left: 960px;
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+ol {
+    display: block;
+    list-style-type: decimal;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}
+
+.customMargin
+{
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.border1
+{
+    border: 2px solid #A9A9A9;
+}
+
+p
+{
+    text-align: center;
+    margin:20px;
+    padding: 20px;
+    line-height: 10px;
+}
+
+h3
+{
+    text-align:center;
+    margin:10px;
+}
+
+.titleText{
+    margin-top: 30px;
+    border: 2px solid #A9A9A9;
+    background: #F5F5F5;
+    padding: 10px;   
+}
+
+.text1{
+    white-space: normal;
+    width: 600px;
+    margin-top: 30px;
+    border: 2px solid #A9A9A9;
+    background: rgb(130, 212, 245);
+    padding: 10px;   
+    padding-bottom: 50px;
+    margin-left: 50px;
+}
+
+.articleText{
+    margin-top: 20px;
+    border: 2px solid #FAEBD7;
+    background: #FFFFF0;
+    padding: 30px;   
+}
+
+.comment
+{
+    padding: 10px 0;
+    margin: 40px 0 40px 0;
+    border-bottom: 1px dashed #666;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.comments {
+    list-style: none;
+}
+
+.first_level {
+    margin: 0;
+    padding: 0;
+}
+
+.comment_text .comment_author {
+    font-size: 14px;
+    font-weight: bold;
+    color: #781919;
+    margin-bottom: 10px;
+}
+
+.comment_text .date {
+    font-size: 14px;
+    font-weight: normal;
+    color: #333;
+    padding-left: 10px;
+}

@@ -5,6 +5,7 @@ namespace Models.Comment
 {
     public class CommentModel
     {
+        public string Id { get; set; }
         public string Text { get; set; }
 
         [BsonDateTimeOptions]

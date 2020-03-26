@@ -15,7 +15,7 @@ namespace Services.BlogService
 
         Task<Blog> UpdateBlogAsync(string blogId, UpdateBlogRequest blogRequest);
 
-        Task<IEnumerable<Blog>> SearchByPartialTitleOccurrenceUserNameOrCategory(SearchBlogRequest search);
+        Task<IEnumerable<Blog>> SearchByPartialTitleOccurrenceUserNameOrCategory(string search);
 
         Task DeleteBlogAsync(string blogId);
     }
